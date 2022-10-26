@@ -95,10 +95,6 @@ public class No{
 				}
 				else{
 					//SE O NÓ A SER DELETADO TEM SUBARVORE À ESQUERDA OU À DIREITA
-					/*
-					 * tem que rever, tem algo errado, Isso dá certo pra remover o
-					 * nó 50, mas no 10 ele falha
-					*/
 					if(atual.noEsquerdo != null && atual.noDireito == null){
 						pai.noEsquerdo = atual.noEsquerdo;
 						atual = null;
