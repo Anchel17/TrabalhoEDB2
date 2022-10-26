@@ -1,4 +1,16 @@
 public class Main {
+	public static void preOrdem(No raiz){
+		System.out.println(raiz.valor);
+		
+		if(raiz.noEsquerdo != null){
+			preOrdem(raiz.noEsquerdo);
+		}
+
+		if(raiz.noDireito != null){
+			preOrdem(raiz.noDireito);
+		}
+	}
+	
 	public static void main(String[] args) {
 		No raiz = new No(20);
 		
@@ -20,31 +32,38 @@ public class Main {
 		No no60 = new No(60);
 		no50.noDireito = no60;
 		
-		/*
-		No no14 = new No(14);
-		No no9 = new No(9);
-		No no31 = new No(31);
-		
-		System.out.println(raiz.inserir(no14, raiz));
-		System.out.println(raiz.inserir(no9, raiz));
-		System.out.println(raiz.inserir(no31, raiz));
-		System.out.println(raiz.busca(31, raiz));
-		*/
-		
-		/*Testes de inserção, remoção e busca
-		No no13 = new No(13);
-		raiz.inserir(no13, raiz);
-		
-		No no33 = new No(33);
-		raiz.inserir(no33, raiz);
-		
-		No no39 = new No(39);
-		raiz.inserir(no39, raiz);
-		
-		System.out.println(raiz.busca(no39.valor, raiz));
-		*/
-		//System.out.println(raiz.busca(no15.valor, raiz));
-		//System.out.println(raiz.remover(no30, raiz));
-		//System.out.println(raiz.busca(no39.valor, raiz));
+		raiz.inserir(new No(31), raiz);
+		raiz.inserir(new No(32), raiz);
+		//System.out.println(raiz.busca(15, raiz));
+		System.out.println(raiz.remover(no40, raiz));
+		//System.out.println(raiz.busca(30, no15));
+		preOrdem(raiz);
 	}
 }
+
+/*
+No no14 = new No(14);
+No no9 = new No(9);
+No no31 = new No(31);
+
+System.out.println(raiz.inserir(no14, raiz));
+System.out.println(raiz.inserir(no9, raiz));
+System.out.println(raiz.inserir(no31, raiz));
+System.out.println(raiz.busca(31, raiz));
+*/
+
+/*Testes de inserção, remoção e busca
+No no13 = new No(13);
+raiz.inserir(no13, raiz);
+
+No no33 = new No(33);
+raiz.inserir(no33, raiz);
+
+No no39 = new No(39);
+raiz.inserir(no39, raiz);
+
+System.out.println(raiz.busca(no39.valor, raiz));
+*/
+//System.out.println(raiz.busca(no15.valor, raiz));
+//System.out.println(raiz.remover(no30, raiz));
+//System.out.println(raiz.busca(no39.valor, raiz));
