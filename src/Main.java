@@ -30,8 +30,21 @@ public class Main {
 		System.out.println(raiz.inserir(no31, raiz));
 		System.out.println(raiz.busca(31, raiz));
 		*/
-		System.out.println(raiz.busca(no10.valor, raiz));
-		System.out.println(raiz.remover(no10, raiz));
-		System.out.println(raiz.busca(no10.valor, raiz));
+		
+		/*Testes de inserção, remoção e busca
+		No no13 = new No(13);
+		raiz.inserir(no13, raiz);
+		
+		No no33 = new No(33);
+		raiz.inserir(no33, raiz);
+		
+		No no39 = new No(39);
+		raiz.inserir(no39, raiz);
+		
+		System.out.println(raiz.busca(no39.valor, raiz));
+		*/
+		//System.out.println(raiz.busca(no15.valor, raiz));
+		//System.out.println(raiz.remover(no30, raiz));
+		//System.out.println(raiz.busca(no39.valor, raiz));
 	}
 }
