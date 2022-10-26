@@ -108,8 +108,49 @@ public class No{
 							pai.noDireito = atual.noDireito;
 						}
 						atual = null;
-						System.out.println("Entrou");
 						return true;
+					}
+					//SE O NÓ A SER REMOVIDO POSSUI DUAS SUBÁRVORES
+					else if(atual.noEsquerdo != null && atual.noDireito != null){
+						No maiorEsquerda = atual.noEsquerdo;
+						No paiMaiorEsquerda = atual;
+						
+						No menorDireita = atual.noDireito;
+						No paiMenorDireita = atual;
+						
+						//maior nó à esquerda
+						while(maiorEsquerda.noDireito != null){
+							paiMaiorEsquerda = maiorEsquerda;
+							maiorEsquerda = maiorEsquerda.noDireito;
+						}
+						
+						//menor nó à direita
+						while(menorDireita.noEsquerdo != null){
+							paiMenorDireita = menorDireita;
+							menorDireita = menorDireita.noEsquerdo;
+						}
+						
+						//vê qual dos dois está mais próximo do valor a ser removido
+						if(menorDireita.valor - atual.valor < atual.valor - maiorEsquerda.valor){
+							/*AINDA FALTA FAZER ESSE DA SUBARVORE À DIREITA*/
+							menorDireita.noEsquerdo = atual.noEsquerdo;
+							menorDireita.noDireito = atual.noDireito;
+							atual = menorDireita;
+							paiMenorDireita.noEsquerdo = null;
+							pai.noEsquerdo = atual;
+							return true;
+						}
+						else{
+							/*MAIOR DA SUBÁRVORE À ESQUERDA SEMIPRONTO/PRONTO*/
+							maiorEsquerda.noDireito = atual.noDireito;
+							if(paiMaiorEsquerda != null && paiMaiorEsquerda.valor != atual.valor){
+								maiorEsquerda.noEsquerdo = atual.noEsquerdo;
+							}
+							atual = maiorEsquerda;
+							paiMaiorEsquerda.noDireito = null;
+							pai.noDireito = atual;
+							return true;
+						}
 					}
 				}
 			}
