@@ -5,6 +5,7 @@ public class No{
 	public int valor;
 	public No noEsquerdo;
 	public No noDireito;
+	public 	static No raiz = null;
 	
 	No(int valor){
 		this.valor = valor;
@@ -12,75 +13,88 @@ public class No{
 		this.noDireito = null;
 	}
 	
-	public No busca(int chave, No raiz){
-		System.out.println(raiz.valor);
-		if(chave == raiz.valor){
-			return raiz;
+	public static No busca(int chave){
+		if(raiz == null){
+			return null;
 		}
-		else{
-			if(chave < raiz.valor){
-				if(raiz.noEsquerdo != null){
-					raiz = raiz.noEsquerdo;
+		
+		No atual = raiz;
+		
+		while(true){
+			System.out.println(atual);
+			if(chave == atual.valor){
+				return atual;
+			}
+			else if(chave < atual.valor){
+				if(atual.noEsquerdo != null){
+					atual = atual.noEsquerdo;					
 				}
 				else{
-					if(raiz.noDireito == null){
+					if(atual.noDireito == null){
 						return null;
 					}
-					if(chave < raiz.noDireito.valor){
+					else if(chave < atual.noDireito.valor){
 						return null;
 					}
 				}
 			}
 			else{
-				if(raiz.noDireito != null){
-					raiz = raiz.noDireito;
+				if(atual.noDireito != null){
+					atual = atual.noDireito;
 				}
 				else{
-					if(raiz.noEsquerdo == null){
+					if(atual.noEsquerdo == null){
 						return null;
 					}
-					else if(chave > raiz.noEsquerdo.valor){
+					else if(chave > atual.noEsquerdo.valor){
 						return null;
 					}
 				}
 			}
 		}
-		
-		return busca(chave, raiz);
 	}
 	
-	public boolean inserir(No no, No raiz){
-		if(no.valor == raiz.valor){
-			return false;
+	public static boolean inserir(No no){
+		if(raiz == null){
+			raiz = no;
+			return true;
 		}
 		
-		if(no.valor < raiz.valor){
-			if(raiz.noEsquerdo == null){
-				raiz.noEsquerdo = no;
-				return true;
+		No atual = raiz;
+		while(true){
+			if(no.valor == atual.valor){
+				return false;
+			}
+			else if(no.valor < atual.valor){
+				if(atual.noEsquerdo == null){
+					atual.noEsquerdo = no;
+					return true;
+				}
+				else{
+					atual = atual.noEsquerdo;
+				}
 			}
 			else{
-				raiz = raiz.noEsquerdo;
+				if(atual.noDireito == null){
+					atual.noDireito = no;
+					return true;
+				}
+				else{
+					atual = atual.noDireito;
+				}
 			}
 		}
-		else if(no.valor > raiz.valor){
-			if(raiz.noDireito == null){
-				raiz.noDireito = no;
-				return true;
-			}
-			else{
-				raiz = raiz.noDireito;
-			}
-		}
-		
-		return inserir(no, raiz);
 	}
 	
-	public boolean remover(No no, No raiz){	
+	public static boolean remover(No no){	
 		No atual = raiz;
 		No pai = null;
 		
 		while(true){
+			if(raiz == null){
+				return false;
+			}
+			
 			if(no.valor == atual.valor){
 				//remoção de um nó folha
 				if(atual.noEsquerdo == null && atual.noDireito == null){
@@ -134,21 +148,36 @@ public class No{
 						if(menorDireita.valor - atual.valor < atual.valor - maiorEsquerda.valor){
 							/*AINDA FALTA FAZER ESSE DA SUBARVORE À DIREITA*/
 							menorDireita.noEsquerdo = atual.noEsquerdo;
-							menorDireita.noDireito = atual.noDireito;
+							if(paiMenorDireita != null && paiMenorDireita.valor != atual.valor){
+								menorDireita.noDireito = atual.noDireito;	
+							}						
 							atual = menorDireita;
 							paiMenorDireita.noEsquerdo = null;
-							pai.noEsquerdo = atual;
+							
+							if(pai != null){
+								pai.noEsquerdo = atual;
+							}
+							else{
+								raiz = atual;
+							}
+							
 							return true;
 						}
 						else{
 							/*MAIOR DA SUBÁRVORE À ESQUERDA SEMIPRONTO/PRONTO*/
 							maiorEsquerda.noDireito = atual.noDireito;
-							if(paiMaiorEsquerda != null && paiMaiorEsquerda.valor != atual.valor){
+							//if(paiMaiorEsquerda != null && paiMaiorEsquerda.valor != atual.valor){
 								maiorEsquerda.noEsquerdo = atual.noEsquerdo;
-							}
+							//}
 							atual = maiorEsquerda;
 							paiMaiorEsquerda.noDireito = null;
-							pai.noDireito = atual;
+							
+							if(pai != null){
+								pai.noDireito = atual;
+							}
+							else{
+								raiz = atual;
+							}
 							return true;
 						}
 					}
@@ -168,6 +197,10 @@ public class No{
 			}
 		}
 		
+	}
+	
+	public static No getRaiz(){
+		return raiz;
 	}
 	
 	@Override
