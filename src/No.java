@@ -86,7 +86,7 @@ public class No{
 		}
 	}
 	
-	public static boolean remover(No no){	
+	public static boolean remover(int chave){	
 		No atual = raiz;
 		No pai = null;
 		
@@ -95,7 +95,7 @@ public class No{
 				return false;
 			}
 			
-			if(no.valor == atual.valor){
+			if(chave == atual.valor){
 				//remoção de um nó folha
 				if(atual.noEsquerdo == null && atual.noDireito == null){
 					if(atual.valor < pai.valor){
@@ -126,64 +126,53 @@ public class No{
 					}
 					//SE O NÓ A SER REMOVIDO POSSUI DUAS SUBÁRVORES
 					else if(atual.noEsquerdo != null && atual.noDireito != null){
-						No maiorEsquerda = atual.noEsquerdo;
-						No paiMaiorEsquerda = atual;
+						//ESSE CARAI TEM QUE SER REFEITO
+						No paiMaiorEsquerdo = atual;
+						No maiorEsquerdo = atual.noEsquerdo;
 						
-						No menorDireita = atual.noDireito;
-						No paiMenorDireita = atual;
+						No paiMenorDireito = atual;
+						No menorDireito = atual.noDireito;
 						
-						//maior nó à esquerda
-						while(maiorEsquerda.noDireito != null){
-							paiMaiorEsquerda = maiorEsquerda;
-							maiorEsquerda = maiorEsquerda.noDireito;
+						while(menorDireito.noEsquerdo != null){
+							paiMenorDireito = menorDireito;
+							menorDireito = menorDireito.noEsquerdo;
 						}
 						
-						//menor nó à direita
-						while(menorDireita.noEsquerdo != null){
-							paiMenorDireita = menorDireita;
-							menorDireita = menorDireita.noEsquerdo;
+						while(maiorEsquerdo.noDireito != null){
+							paiMaiorEsquerdo = maiorEsquerdo;
+							maiorEsquerdo = maiorEsquerdo.noDireito;
 						}
 						
-						//vê qual dos dois está mais próximo do valor a ser removido
-						if(menorDireita.valor - atual.valor < atual.valor - maiorEsquerda.valor){
-							/*AINDA FALTA FAZER ESSE DA SUBARVORE À DIREITA*/
-							menorDireita.noEsquerdo = atual.noEsquerdo;
-							if(paiMenorDireita != null && paiMenorDireita.valor != atual.valor){
-								menorDireita.noDireito = atual.noDireito;	
-							}						
-							atual = menorDireita;
-							paiMenorDireita.noEsquerdo = null;
-							
-							if(pai != null){
-								pai.noEsquerdo = atual;
+						//Maior a esquerda está mais próximo do valor do nó removido
+						if((atual.valor - maiorEsquerdo.valor) < (menorDireito.valor - atual.valor)){
+							atual.valor = maiorEsquerdo.valor;
+							if(maiorEsquerdo.noEsquerdo != null){
+								paiMaiorEsquerdo.noEsquerdo = maiorEsquerdo.noEsquerdo;	
 							}
 							else{
-								raiz = atual;
+								paiMaiorEsquerdo.noEsquerdo = null;
 							}
-							
 							return true;
 						}
+						//Menor à direita está mais próximo do valor do nó removido
 						else{
-							/*MAIOR DA SUBÁRVORE À ESQUERDA SEMIPRONTO/PRONTO*/
-							maiorEsquerda.noDireito = atual.noDireito;
-							//if(paiMaiorEsquerda != null && paiMaiorEsquerda.valor != atual.valor){
-								maiorEsquerda.noEsquerdo = atual.noEsquerdo;
-							//}
-							atual = maiorEsquerda;
-							paiMaiorEsquerda.noDireito = null;
-							
-							if(pai != null){
-								pai.noDireito = atual;
+							atual.valor = menorDireito.valor;
+							if(menorDireito.noDireito != null){
+								paiMenorDireito.noDireito = menorDireito.noDireito;
 							}
 							else{
-								raiz = atual;
+								paiMenorDireito.noDireito = null;
 							}
+							
+							if(pai == null){
+								raiz = atual;
+							}				
 							return true;
 						}
 					}
 				}
 			}
-			else if(no.valor < atual.valor){
+			else if(chave < atual.valor){
 				if(atual.noEsquerdo != null){
 					pai = atual;
 					atual = atual.noEsquerdo;
