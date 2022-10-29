@@ -1,18 +1,18 @@
 public class Main {
-	public static void preOrdem(No raiz){
+	public static void preOrdem(No raiz) {
 		System.out.println(raiz.valor);
-		
-		if(raiz.noEsquerdo != null){
+
+		if (raiz.noEsquerdo != null) {
 			preOrdem(raiz.noEsquerdo);
 		}
 
-		if(raiz.noDireito != null){
+		if (raiz.noDireito != null) {
 			preOrdem(raiz.noDireito);
 		}
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		No.inserir(new No(50));
 		No.inserir(new No(70));
 		No.inserir(new No(35));
@@ -22,8 +22,9 @@ public class Main {
 		No.inserir(new No(65));
 		No.inserir(new No(90));
 		No.inserir(new No(80));
-		
+
 		System.out.println(No.remover(35));
+		System.out.println("Altura da raiz: " + No.calcAltura(No.getRaiz()));
 		preOrdem(No.getRaiz());
 	}
 }
