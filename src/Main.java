@@ -11,6 +11,18 @@ public class Main {
 		}
 	}
 
+	public static void inOrdem(No raiz) {
+		if (raiz.noEsquerdo != null) {
+			inOrdem(raiz.noEsquerdo);
+		}
+
+		System.out.print(raiz.valor + "  ");
+
+		if (raiz.noDireito != null) {
+			inOrdem(raiz.noDireito);
+		}
+	}
+
 	public static void main(String[] args) {
 
 		No.inserir(new No(50));
@@ -23,8 +35,11 @@ public class Main {
 		No.inserir(new No(90));
 		No.inserir(new No(80));
 
-		System.out.println(No.remover(35));
+		// System.out.println(No.remover(35));
 		System.out.println("Altura da raiz: " + No.calcAltura(No.getRaiz()));
 		preOrdem(No.getRaiz());
+		inOrdem(No.getRaiz());
+		System.out.println("\nElemento n: ");
+		No.enesimoElemento(No.getRaiz(), 5);
 	}
 }

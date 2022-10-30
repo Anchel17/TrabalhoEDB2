@@ -4,6 +4,7 @@ public class No {
 	public No noDireito;
 	public int altura = 0;
 	public static No raiz = null;
+	public static int contador = 0;
 
 	No(int valor) {
 		this.valor = valor;
@@ -200,6 +201,23 @@ public class No {
 		} else {
 			raiz.altura = altEsq + 1;
 			return altEsq + 1;
+		}
+	}
+
+	public static void enesimoElemento(No raiz, int enesimo) {
+		if (raiz == null)
+			return;
+
+		if (contador <= enesimo) {
+			enesimoElemento(raiz.noEsquerdo, enesimo);
+
+			contador++;
+
+			if (contador == enesimo) {
+				System.out.printf("%d ", raiz.valor);
+			}
+
+			enesimoElemento(raiz.noDireito, enesimo);
 		}
 	}
 
