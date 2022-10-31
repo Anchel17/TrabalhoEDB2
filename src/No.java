@@ -220,6 +220,25 @@ public class No {
 			enesimoElemento(raiz.noDireito, enesimo);
 		}
 	}
+	
+	/*
+	 * Tem um bug por causa do contador ser estático 
+	 * */
+	public static void posicao(No raiz, int elemento){
+		if(raiz == null){
+			return;
+		}
+				
+		posicao(raiz.noEsquerdo, elemento);
+		contador++;
+		
+		if(raiz.valor == elemento){
+			System.out.println("Posição ocupada: " + contador);
+		}
+	
+		posicao(raiz.noDireito,  elemento);
+	
+	}
 
 	@Override
 	public String toString() {
