@@ -214,7 +214,7 @@ public class No {
 			contador++;
 
 			if (contador == enesimo) {
-				System.out.printf("%d ", raiz.valor);
+				System.out.println(raiz.valor);
 			}
 
 			enesimoElemento(raiz.noDireito, enesimo);
