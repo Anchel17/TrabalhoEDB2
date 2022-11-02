@@ -5,6 +5,7 @@ public class No {
 	public int altura = 0;
 	public static No raiz = null;
 	public static int contador = 0;
+	public static int quantNos = 0;
 
 	No(int valor) {
 		this.valor = valor;
@@ -50,16 +51,20 @@ public class No {
 	public static boolean inserir(No no) {
 		if (raiz == null) {
 			raiz = no;
+			quantNos++;
 			return true;
 		}
 
 		No atual = raiz;
 		while (true) {
 			if (no.valor == atual.valor) {
+				System.out.println(no.valor + " já está na árvore, não pode ser inserido");
 				return false;
 			} else if (no.valor < atual.valor) {
 				if (atual.noEsquerdo == null) {
 					atual.noEsquerdo = no;
+					quantNos++;
+					System.out.println(no.valor + " adicionado");
 					return true;
 				} else {
 					atual = atual.noEsquerdo;
@@ -67,6 +72,8 @@ public class No {
 			} else {
 				if (atual.noDireito == null) {
 					atual.noDireito = no;
+					quantNos++;
+					System.out.println(no.valor + " adicionado");
 					return true;
 				} else {
 					atual = atual.noDireito;
@@ -180,7 +187,6 @@ public class No {
 				}
 			}
 		}
-
 	}
 
 	public static No getRaiz() {
@@ -198,8 +204,8 @@ public class No {
 		if (raiz == null) {
 			return -1;
 		}
-		int altEsq = -1;
-		int altDir = -1;
+		int altEsq = 0;
+		int altDir = 0;
 
 		if (raiz.noEsquerdo != null) {
 			altEsq = calcAltura(raiz.noEsquerdo);
@@ -216,6 +222,17 @@ public class No {
 			raiz.altura = altEsq + 1;
 			return altEsq + 1;
 		}
+	}
+
+	public static boolean eCompleta(No raiz) {
+		if (raiz == null) {
+			return true;
+		}
+
+		if ((Math.pow(2, raiz.altura - 1) <= quantNos) && quantNos <= (Math.pow(2, raiz.altura) - 1)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

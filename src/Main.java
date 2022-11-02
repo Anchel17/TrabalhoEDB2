@@ -41,6 +41,8 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException {
 		arvoreEntrada(args[0]);
 
+		No.inserir(new No(36));
+
 		// No.inserir(new No(50));
 		// No.inserir(new No(70));
 		// No.inserir(new No(35));
@@ -50,6 +52,8 @@ public class Main {
 		// No.inserir(new No(65));
 		// No.inserir(new No(90));
 		// No.inserir(new No(80));
+		// No.inserir(new No(20));
+		// No.inserir(new No(100));
 
 		/*
 		 * Testes árvore cheia.
@@ -73,5 +77,6 @@ public class Main {
 		System.out.println("\nElemento n: ");
 		No.enesimoElemento(No.getRaiz(), 5);
 		System.out.println("\nÉ cheia? " + No.eCheia(No.getRaiz()));
+		System.out.println("É completa? " + No.eCompleta(No.getRaiz()));
 	}
 }
