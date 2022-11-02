@@ -97,10 +97,9 @@ public class No {
 				} else {
 					// SE O NÓ A SER DELETADO TEM SUBARVORE APENAS À ESQUERDA
 					if (atual.noEsquerdo != null && atual.noDireito == null) {
-						if(atual.valor < pai.valor){
+						if (atual.valor < pai.valor) {
 							pai.noEsquerdo = atual.noEsquerdo;
-						}
-						else{
+						} else {
 							pai.noDireito = atual.noEsquerdo;
 						}
 						atual = null;
@@ -138,13 +137,12 @@ public class No {
 						// Maior a esquerda está mais próximo do valor do nó removido
 						if ((atual.valor - maiorEsquerdo.valor) < (menorDireito.valor - atual.valor)) {
 							atual.valor = maiorEsquerdo.valor;
-							if (maiorEsquerdo.noEsquerdo != null){
+							if (maiorEsquerdo.noEsquerdo != null) {
 								paiMaiorEsquerdo.noDireito = maiorEsquerdo.noEsquerdo;
 							} else {
-								if(paiMaiorEsquerdo == atual){
+								if (paiMaiorEsquerdo == atual) {
 									paiMaiorEsquerdo.noEsquerdo = null;
-								}
-								else{
+								} else {
 									paiMaiorEsquerdo.noDireito = null;
 								}
 							}
@@ -153,18 +151,17 @@ public class No {
 						// Menor à direita está mais próximo do valor do nó removido
 						else {
 							atual.valor = menorDireito.valor;
-							if(menorDireito.noDireito != null) {
+							if (menorDireito.noDireito != null) {
 								paiMenorDireito.noEsquerdo = menorDireito.noDireito;
-							}else{
-								if(paiMenorDireito == atual) {
+							} else {
+								if (paiMenorDireito == atual) {
 									paiMenorDireito.noDireito = null;
-								}
-								else{
+								} else {
 									paiMenorDireito.noEsquerdo = null;
 								}
 							}
-							
-							if(pai == null){
+
+							if (pai == null) {
 								raiz = atual;
 							}
 							return true;
@@ -221,6 +218,30 @@ public class No {
 		}
 	}
 
+	/**
+	 * Verifica se a árvore é cheia ou não.
+	 * Para ser cheia, todo nó precisa ter 0 ou 2 filhos.
+	 * 
+	 * @param raiz Nó raiz da árvore ou de seus subárvores pelas chamadas recursivas
+	 * @return Cheia -> True; Não cheia -> False
+	 */
+	public static boolean eCheia(No raiz) {
+		if (raiz == null)
+			return true;
+
+		// Verifica se o nó tem 0 filhos.
+		if (raiz.noEsquerdo == null && raiz.noDireito == null)
+			return true;
+
+		// Verifica se existem 2 filhos em cada nó, se existirem é feito a chamada da
+		// função em cada um deles.
+		if ((raiz.noEsquerdo != null) && (raiz.noDireito != null))
+			return eCheia(raiz.noEsquerdo) && eCheia(raiz.noDireito);
+
+		// Se nenhum nó (não folha) não tiver 0/2 filhos.
+		return false;
+	}
+
 	public static void enesimoElemento(No raiz, int enesimo) {
 		if (raiz == null)
 			return;
@@ -237,24 +258,24 @@ public class No {
 			enesimoElemento(raiz.noDireito, enesimo);
 		}
 	}
-	
+
 	/*
-	 * Tem um bug por causa do contador ser estático 
-	 * */
-	public static void posicao(No raiz, int elemento){
-		if(raiz == null){
+	 * Tem um bug por causa do contador ser estático
+	 */
+	public static void posicao(No raiz, int elemento) {
+		if (raiz == null) {
 			return;
 		}
-				
+
 		posicao(raiz.noEsquerdo, elemento);
 		contador++;
-		
-		if(raiz.valor == elemento){
+
+		if (raiz.valor == elemento) {
 			System.out.println("Posição ocupada: " + contador);
 		}
-	
-		posicao(raiz.noDireito,  elemento);
-	
+
+		posicao(raiz.noDireito, elemento);
+
 	}
 
 	@Override

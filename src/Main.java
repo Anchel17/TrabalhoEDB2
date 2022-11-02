@@ -35,11 +35,26 @@ public class Main {
 		No.inserir(new No(90));
 		No.inserir(new No(80));
 
-		// System.out.println(No.remover(35));
+		/*
+		 * Testes árvore cheia.
+		 * No.inserir(new No(6));
+		 * No.inserir(new No(3));
+		 * No.inserir(new No(10));
+		 * No.inserir(new No(1));
+		 * No.inserir(new No(4));
+		 * No.inserir(new No(7));
+		 * No.inserir(new No(11));
+		 * System.out.println(
+		 * "Raiz: " + No.getRaiz() + " " + No.getRaiz().noEsquerdo.valor + " " +
+		 * No.getRaiz().noDireito.valor);
+		 */
+
+		System.out.println(No.remover(35));
 		System.out.println("Altura da raiz: " + No.calcAltura(No.getRaiz()));
 		preOrdem(No.getRaiz());
 		inOrdem(No.getRaiz());
 		System.out.println("\nElemento n: ");
 		No.enesimoElemento(No.getRaiz(), 5);
+		System.out.println("\nÉ cheia? " + No.eCheia(No.getRaiz()));
 	}
 }
