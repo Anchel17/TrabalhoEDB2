@@ -95,12 +95,19 @@ public class No {
 					atual = null;
 					return true;
 				} else {
-					// SE O NÓ A SER DELETADO TEM SUBARVORE À ESQUERDA OU À DIREITA
+					// SE O NÓ A SER DELETADO TEM SUBARVORE APENAS À ESQUERDA
 					if (atual.noEsquerdo != null && atual.noDireito == null) {
-						pai.noEsquerdo = atual.noEsquerdo;
+						if(atual.valor < pai.valor){
+							pai.noEsquerdo = atual.noEsquerdo;
+						}
+						else{
+							pai.noDireito = atual.noEsquerdo;
+						}
 						atual = null;
 						return true;
-					} else if (atual.noDireito != null && atual.noEsquerdo == null) {
+					}
+					// SE O NÓ A SER DELETADO TEM SUBÁRVORE APENAS À DIREITA
+					else if (atual.noDireito != null && atual.noEsquerdo == null) {
 						if (atual.valor < pai.valor) {
 							pai.noEsquerdo = atual.noDireito;
 						} else {
@@ -134,7 +141,12 @@ public class No {
 							if (maiorEsquerdo.noEsquerdo != null){
 								paiMaiorEsquerdo.noDireito = maiorEsquerdo.noEsquerdo;
 							} else {
-								paiMaiorEsquerdo.noDireito = null;
+								if(paiMaiorEsquerdo == atual){
+									paiMaiorEsquerdo.noEsquerdo = null;
+								}
+								else{
+									paiMaiorEsquerdo.noDireito = null;
+								}
 							}
 							return true;
 						}
@@ -144,7 +156,12 @@ public class No {
 							if(menorDireito.noDireito != null) {
 								paiMenorDireito.noEsquerdo = menorDireito.noDireito;
 							}else{
-								paiMenorDireito.noEsquerdo = null;
+								if(paiMenorDireito == atual) {
+									paiMenorDireito.noDireito = null;
+								}
+								else{
+									paiMenorDireito.noEsquerdo = null;
+								}
 							}
 							
 							if(pai == null){
