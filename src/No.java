@@ -131,23 +131,23 @@ public class No {
 						// Maior a esquerda está mais próximo do valor do nó removido
 						if ((atual.valor - maiorEsquerdo.valor) < (menorDireito.valor - atual.valor)) {
 							atual.valor = maiorEsquerdo.valor;
-							if (maiorEsquerdo.noEsquerdo != null) {
-								paiMaiorEsquerdo.noEsquerdo = maiorEsquerdo.noEsquerdo;
+							if (maiorEsquerdo.noEsquerdo != null){
+								paiMaiorEsquerdo.noDireito = maiorEsquerdo.noEsquerdo;
 							} else {
-								paiMaiorEsquerdo.noEsquerdo = null;
+								paiMaiorEsquerdo.noDireito = null;
 							}
 							return true;
 						}
 						// Menor à direita está mais próximo do valor do nó removido
 						else {
 							atual.valor = menorDireito.valor;
-							if (menorDireito.noDireito != null) {
-								paiMenorDireito.noDireito = menorDireito.noDireito;
-							} else {
-								paiMenorDireito.noDireito = null;
+							if(menorDireito.noDireito != null) {
+								paiMenorDireito.noEsquerdo = menorDireito.noDireito;
+							}else{
+								paiMenorDireito.noEsquerdo = null;
 							}
-
-							if (pai == null) {
+							
+							if(pai == null){
 								raiz = atual;
 							}
 							return true;
@@ -214,7 +214,7 @@ public class No {
 			contador++;
 
 			if (contador == enesimo) {
-				System.out.println(raiz.valor);
+				System.out.printf("%d ", raiz.valor);
 			}
 
 			enesimoElemento(raiz.noDireito, enesimo);
