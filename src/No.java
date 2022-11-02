@@ -51,6 +51,7 @@ public class No {
 	public static boolean inserir(No no) {
 		if (raiz == null) {
 			raiz = no;
+			System.out.println(no.valor + " adicionado");
 			quantNos++;
 			return true;
 		}
@@ -80,6 +81,7 @@ public class No {
 				}
 			}
 		}
+		
 	}
 
 	public static boolean remover(int chave) {
@@ -100,6 +102,7 @@ public class No {
 						pai.noDireito = null;
 					}
 					atual = null;
+					quantNos--;
 					return true;
 				} else {
 					// SE O NÓ A SER DELETADO TEM SUBARVORE APENAS À ESQUERDA
@@ -110,6 +113,7 @@ public class No {
 							pai.noDireito = atual.noEsquerdo;
 						}
 						atual = null;
+						quantNos--;
 						return true;
 					}
 					// SE O NÓ A SER DELETADO TEM SUBÁRVORE APENAS À DIREITA
@@ -120,6 +124,7 @@ public class No {
 							pai.noDireito = atual.noDireito;
 						}
 						atual = null;
+						quantNos--;
 						return true;
 					}
 					// SE O NÓ A SER REMOVIDO POSSUI DUAS SUBÁRVORES
@@ -153,6 +158,7 @@ public class No {
 									paiMaiorEsquerdo.noDireito = null;
 								}
 							}
+							quantNos--;
 							return true;
 						}
 						// Menor à direita está mais próximo do valor do nó removido
@@ -171,19 +177,26 @@ public class No {
 							if (pai == null) {
 								raiz = atual;
 							}
+							quantNos--;
 							return true;
 						}
 					}
 				}
-			} else if (chave < atual.valor) {
-				if (atual.noEsquerdo != null) {
+			} else if(chave < atual.valor) {
+				if(atual.noEsquerdo != null) {
 					pai = atual;
 					atual = atual.noEsquerdo;
 				}
-			} else {
-				if (atual.noDireito != null) {
+				else{
+					return false;
+				}
+			} else{
+				if(atual.noDireito != null) {
 					pai = atual;
 					atual = atual.noDireito;
+				}
+				else {
+					return false;
 				}
 			}
 		}
