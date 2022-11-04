@@ -4,7 +4,7 @@ public class No {
 	public No noDireito;
 	public int altura = 0;
 	public static No raiz = null;
-	public static int contador = 0;
+	//public static int contador = 0;
 	public static int quantNos = 0;
 
 	No(int valor) {
@@ -245,6 +245,11 @@ public class No {
 		if ((Math.pow(2, raiz.altura - 1) <= quantNos) && quantNos <= (Math.pow(2, raiz.altura) - 1)) {
 			return true;
 		}
+		
+		//O jeito que eu disse que tá funcionando
+//		if ((Math.pow(2, calcAltura(raiz) - 1) <= quantNos) && quantNos <= (Math.pow(2, calcAltura(raiz)) - 1)) {
+//			return true;
+//		}
 		return false;
 	}
 
@@ -271,21 +276,38 @@ public class No {
 		// Se nenhum nó (não folha) não tiver 0/2 filhos.
 		return false;
 	}
+	
+	public static int alturaDaArvore(No raiz){
+		if(raiz == null){
+			return 0;
+		}
+		else{
+			return alturaDaArvore(raiz.noEsquerdo) + 1 + alturaDaArvore(raiz.noDireito);
+		}
+	}
 
 	public static void enesimoElemento(No raiz, int enesimo) {
 		if (raiz == null)
 			return;
-
-		if (contador <= enesimo) {
-			enesimoElemento(raiz.noEsquerdo, enesimo);
-
-			contador++;
-
-			if (contador == enesimo) {
-				System.out.printf("%d ", raiz.valor);
+		
+		No atual = raiz;
+		
+		while(true){
+			if(atual == null) break;
+			int alturaAtual = alturaDaArvore(atual.noEsquerdo);
+			System.out.println(alturaDaArvore(atual.noEsquerdo));
+			
+			if(alturaAtual + 1 == enesimo){
+				System.out.println(atual.valor);
+				break;
 			}
-
-			enesimoElemento(raiz.noDireito, enesimo);
+			else if(alturaAtual + 1 > enesimo){
+				atual = atual.noEsquerdo;
+			}
+			else if(alturaAtual + 1 < enesimo){
+				atual = atual.noDireito;
+				enesimo -= alturaAtual + 1;
+			}
 		}
 	}
 
@@ -298,14 +320,80 @@ public class No {
 		}
 
 		posicao(raiz.noEsquerdo, elemento);
-		contador++;
+		//contador++;
 
 		if (raiz.valor == elemento) {
-			System.out.println("Posição ocupada: " + contador);
+			//System.out.println("Posição ocupada: " + contador);
 		}
 
 		posicao(raiz.noDireito, elemento);
 
+	}
+	
+	
+	public static void preOrdem(No raiz){
+		System.out.print(raiz + "  ");
+		
+		if(raiz.noEsquerdo != null){
+			preOrdem(raiz.noEsquerdo);
+		}
+		
+		if(raiz.noDireito != null){
+			preOrdem(raiz.noDireito);
+		}
+	}
+	
+	/*
+	 * Soma enquanto percorre a árvore em preOrdem
+	 * */
+	public static double preOrdem(No raiz, double soma){
+		soma += raiz.valor;
+		
+		if(raiz.noEsquerdo != null){
+			soma = preOrdem(raiz.noEsquerdo, soma);
+		}
+
+		if(raiz.noDireito != null){
+			soma = preOrdem(raiz.noDireito, soma);
+		}
+		
+		return soma;
+	}
+	
+	public static double media(int x){
+		if(raiz == null)
+			return -1d;
+		No atual = raiz;
+		while (true) {
+			if (x == atual.valor) {
+				break;
+			} else if (x < atual.valor) {
+				if (atual.noEsquerdo != null) {
+					atual = atual.noEsquerdo;
+				} else {
+					if (atual.noDireito == null) {
+						break;
+					} else if (x < atual.noDireito.valor) {
+						break;
+					}
+				}
+			} else {
+				if (atual.noDireito != null) {
+					atual = atual.noDireito;
+				} else {
+					if (atual.noEsquerdo == null) {
+						break;
+					} else if (x > atual.noEsquerdo.valor) {
+						break;
+					}
+				}
+			}
+		}
+		
+		System.out.println(preOrdem(atual, 0));
+		double media = preOrdem(atual, 0)/alturaDaArvore(atual);
+		
+		return media;
 	}
 
 	@Override
