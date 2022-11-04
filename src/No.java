@@ -4,7 +4,7 @@ public class No {
 	public No noDireito;
 	public int altura = 0;
 	public static No raiz = null;
-	//public static int contador = 0;
+	// public static int contador = 0;
 	public static int quantNos = 0;
 
 	No(int valor) {
@@ -81,7 +81,7 @@ public class No {
 				}
 			}
 		}
-		
+
 	}
 
 	public static boolean remover(int chave) {
@@ -129,7 +129,6 @@ public class No {
 					}
 					// SE O NÓ A SER REMOVIDO POSSUI DUAS SUBÁRVORES
 					else if (atual.noEsquerdo != null && atual.noDireito != null) {
-						// ESSE CARAI TEM QUE SER REFEITO
 						No paiMaiorEsquerdo = atual;
 						No maiorEsquerdo = atual.noEsquerdo;
 
@@ -182,20 +181,18 @@ public class No {
 						}
 					}
 				}
-			} else if(chave < atual.valor) {
-				if(atual.noEsquerdo != null) {
+			} else if (chave < atual.valor) {
+				if (atual.noEsquerdo != null) {
 					pai = atual;
 					atual = atual.noEsquerdo;
-				}
-				else{
+				} else {
 					return false;
 				}
-			} else{
-				if(atual.noDireito != null) {
+			} else {
+				if (atual.noDireito != null) {
 					pai = atual;
 					atual = atual.noDireito;
-				}
-				else {
+				} else {
 					return false;
 				}
 			}
@@ -242,14 +239,12 @@ public class No {
 			return true;
 		}
 
+		calcAltura(raiz);
+
 		if ((Math.pow(2, raiz.altura - 1) <= quantNos) && quantNos <= (Math.pow(2, raiz.altura) - 1)) {
 			return true;
 		}
-		
-		//O jeito que eu disse que tá funcionando
-//		if ((Math.pow(2, calcAltura(raiz) - 1) <= quantNos) && quantNos <= (Math.pow(2, calcAltura(raiz)) - 1)) {
-//			return true;
-//		}
+
 		return false;
 	}
 
@@ -276,12 +271,11 @@ public class No {
 		// Se nenhum nó (não folha) não tiver 0/2 filhos.
 		return false;
 	}
-	
-	public static int alturaDaArvore(No raiz){
-		if(raiz == null){
+
+	public static int alturaDaArvore(No raiz) {
+		if (raiz == null) {
 			return 0;
-		}
-		else{
+		} else {
 			return alturaDaArvore(raiz.noEsquerdo) + 1 + alturaDaArvore(raiz.noDireito);
 		}
 	}
@@ -289,22 +283,21 @@ public class No {
 	public static void enesimoElemento(No raiz, int enesimo) {
 		if (raiz == null)
 			return;
-		
+
 		No atual = raiz;
-		
-		while(true){
-			if(atual == null) break;
+
+		while (true) {
+			if (atual == null)
+				break;
 			int alturaAtual = alturaDaArvore(atual.noEsquerdo);
 			System.out.println(alturaDaArvore(atual.noEsquerdo));
-			
-			if(alturaAtual + 1 == enesimo){
+
+			if (alturaAtual + 1 == enesimo) {
 				System.out.println(atual.valor);
 				break;
-			}
-			else if(alturaAtual + 1 > enesimo){
+			} else if (alturaAtual + 1 > enesimo) {
 				atual = atual.noEsquerdo;
-			}
-			else if(alturaAtual + 1 < enesimo){
+			} else if (alturaAtual + 1 < enesimo) {
 				atual = atual.noDireito;
 				enesimo -= alturaAtual + 1;
 			}
@@ -320,48 +313,47 @@ public class No {
 		}
 
 		posicao(raiz.noEsquerdo, elemento);
-		//contador++;
+		// contador++;
 
 		if (raiz.valor == elemento) {
-			//System.out.println("Posição ocupada: " + contador);
+			// System.out.println("Posição ocupada: " + contador);
 		}
 
 		posicao(raiz.noDireito, elemento);
 
 	}
-	
-	
-	public static void preOrdem(No raiz){
+
+	public static void preOrdem(No raiz) {
 		System.out.print(raiz + "  ");
-		
-		if(raiz.noEsquerdo != null){
+
+		if (raiz.noEsquerdo != null) {
 			preOrdem(raiz.noEsquerdo);
 		}
-		
-		if(raiz.noDireito != null){
+
+		if (raiz.noDireito != null) {
 			preOrdem(raiz.noDireito);
 		}
 	}
-	
+
 	/*
 	 * Soma enquanto percorre a árvore em preOrdem
-	 * */
-	public static double preOrdem(No raiz, double soma){
+	 */
+	public static double preOrdem(No raiz, double soma) {
 		soma += raiz.valor;
-		
-		if(raiz.noEsquerdo != null){
+
+		if (raiz.noEsquerdo != null) {
 			soma = preOrdem(raiz.noEsquerdo, soma);
 		}
 
-		if(raiz.noDireito != null){
+		if (raiz.noDireito != null) {
 			soma = preOrdem(raiz.noDireito, soma);
 		}
-		
+
 		return soma;
 	}
-	
-	public static double media(int x){
-		if(raiz == null)
+
+	public static double media(int x) {
+		if (raiz == null)
 			return -1d;
 		No atual = raiz;
 		while (true) {
@@ -389,11 +381,50 @@ public class No {
 				}
 			}
 		}
-		
+
 		System.out.println(preOrdem(atual, 0));
-		double media = preOrdem(atual, 0)/alturaDaArvore(atual);
-		
+		double media = preOrdem(atual, 0) / alturaDaArvore(atual);
+
 		return media;
+	}
+
+	/**
+	 * Imprime uma matriz na forma de barras.
+	 * 
+	 * @param raiz    Matriz a ser impressa
+	 * @param tracos  Traços que diferenciará em que nível está o nó.
+	 * @param espacos Quantidade de espaços que serão imprimidos.
+	 */
+	public static void imprimirBarras(No raiz, int tracos, int blank) {
+		if (raiz == null) {
+			return;
+		}
+
+		if (raiz != null) {
+			String vazios = "";
+			// Tratamento para quanto um número tiver menos dígitos que os demais.
+			if ((Integer.toString(raiz.valor).length()) < 2) {
+				blank += Integer.toString(raiz.valor).length();
+			}
+			for (int i = 0; i < blank; i++) {
+				vazios += " ";
+			}
+
+			System.out.print(vazios + raiz.valor);
+
+			// Tratamento para quanto um número tiver mais dígitos que os demais.
+			if ((Integer.toString(raiz.valor).length()) > 2) {
+				tracos -= Integer.toString(raiz.valor).length() - 2;
+			}
+			for (int i = 0; i < tracos; i++) {
+				System.out.print("-");
+			}
+			System.out.print("\n");
+
+			imprimirBarras(raiz.noEsquerdo, tracos - 4, blank + 4);
+			imprimirBarras(raiz.noDireito, tracos - 4, blank + 4);
+		}
+
 	}
 
 	@Override

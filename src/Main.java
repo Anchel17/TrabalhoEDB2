@@ -41,8 +41,6 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException {
 		arvoreEntrada(args[0]);
 
-		No.inserir(new No(36));
-
 		// No.inserir(new No(50));
 		// No.inserir(new No(70));
 		// No.inserir(new No(35));
@@ -71,12 +69,16 @@ public class Main {
 
 		// System.out.println(No.remover(35));
 
-		System.out.println("Altura da raiz: " + No.calcAltura(No.getRaiz()));
 		// preOrdem(No.getRaiz());
-		inOrdem(No.getRaiz());
-		System.out.println("\nElemento n: ");
-		No.enesimoElemento(No.getRaiz(), 5);
-		System.out.println("\nÉ cheia? " + No.eCheia(No.getRaiz()));
+		// inOrdem(No.getRaiz());
+		// System.out.println("\nElemento n: ");
 		System.out.println("É completa? " + No.eCompleta(No.getRaiz()));
+		System.out.println("\nÉ cheia? " + No.eCheia(No.getRaiz()));
+		No.inserir(new No(36));
+
+		// No.enesimoElemento(No.getRaiz(), 5);
+		System.out.println("\nÉ cheia? " + No.eCheia(No.getRaiz()));
+
+		No.imprimirBarras(No.getRaiz(), 20, 0);
 	}
 }
