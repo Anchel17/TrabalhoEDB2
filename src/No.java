@@ -311,23 +311,28 @@ public class No {
 		}
 	}
 
-	/*
-	 * Tem um bug por causa do contador ser estático
-	 */
-	public static void posicao(No raiz, int elemento) {
-		if (raiz == null) {
+	public static void posicao(int elemento) {
+		if (raiz == null)
 			return;
+		
+		No atual = raiz;
+		int pos = 0;
+		
+		while(true){
+			int qtdNosEsquerda = qtdNos(atual.noEsquerdo);
+			pos += qtdNosEsquerda + 1;
+			if(atual.valor == elemento){
+				System.out.println(pos);
+				break;
+			}
+			else if(atual.valor > elemento){
+				atual = atual.noEsquerdo;
+				pos -= qtdNosEsquerda + 1;
+			}
+			else{
+				atual = atual.noDireito;
+			}
 		}
-
-		posicao(raiz.noEsquerdo, elemento);
-		// contador++;
-
-		if (raiz.valor == elemento) {
-			// System.out.println("Posição ocupada: " + contador);
-		}
-
-		posicao(raiz.noDireito, elemento);
-
 	}
 
 	public static void preOrdem(No raiz) {
