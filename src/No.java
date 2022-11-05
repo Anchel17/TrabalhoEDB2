@@ -296,7 +296,6 @@ public class No {
 		
 		while(true){
 			int qtdNosEsquerda = qtdNos(atual.noEsquerdo);
-			System.out.println("qtd: " + qtdNosEsquerda);
 			if(qtdNosEsquerda + 1 == enesimo){
 				System.out.println(atual);
 				break;
@@ -306,9 +305,8 @@ public class No {
 			}
 			else if(qtdNosEsquerda + 1 < enesimo){
 				atual = atual.noDireito;
-				//tira a qtd de nós á esquerda dos já percorridos
+				//tira a qtd de nós á esquerda dos já "percorridos"
 				enesimo -= qtdNosEsquerda + 1;
-				System.out.println("en: " + enesimo);
 			}
 		}
 	}
