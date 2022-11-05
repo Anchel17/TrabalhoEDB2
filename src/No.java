@@ -4,7 +4,6 @@ public class No {
 	public No noDireito;
 	public int altura = 0;
 	public static No raiz = null;
-	// public static int contador = 0;
 	public static int quantNos = 0;
 
 	No(int valor) {
@@ -281,15 +280,15 @@ public class No {
 		}
 	}
 
-	public static void enesimoElemento(int enesimo) {
+	public static int enesimoElemento(int enesimo) {
 		if(qtdNos(raiz) == 0 || enesimo < 1){
 			System.out.println("Árvore vazia ou digite um n > 0");
-			return;
+			return -1;
 		}
 		
 		if(qtdNos(raiz) < enesimo){
 			System.out.println("O 'n' excede o número de nós da árvore");
-			return;
+			return -1;
 		}
 		
 		No atual = raiz;
@@ -297,20 +296,22 @@ public class No {
 		while(true){
 			int qtdNosEsquerda = qtdNos(atual.noEsquerdo);
 			if(qtdNosEsquerda + 1 == enesimo){
-				System.out.println(atual);
-				break;
+				return atual.valor;
+				//System.out.println(atual);
+				//break;
 			}
 			else if(qtdNosEsquerda + 1 > enesimo){
 				atual = atual.noEsquerdo;
 			}
 			else if(qtdNosEsquerda + 1 < enesimo){
 				atual = atual.noDireito;
-				//tira a qtd de nós á esquerda dos já "percorridos"
+				//tira a qtd de nós á esquerda dos já percorridos
 				enesimo -= qtdNosEsquerda + 1;
 			}
 		}
 	}
 
+	
 	public static void posicao(int elemento) {
 		if (raiz == null)
 			return;
@@ -331,6 +332,34 @@ public class No {
 			}
 			else{
 				atual = atual.noDireito;
+			}
+		}
+	}
+	
+	public static int mediana(){
+		
+		int altura = qtdNos(raiz);
+		int med;
+		int elementoMediano1;
+		int elementoMediano2;
+		
+		//se a árvore tem um número ímpar de elementos
+		if(altura % 2 != 0){
+			med = (altura + 1)/2;
+			elementoMediano1 = enesimoElemento(med);
+			return elementoMediano1;
+		}
+		else{
+			med = (altura)/2;
+			elementoMediano1 = enesimoElemento(med);
+			
+			med = (int) Math.floor(altura/2) + 1;
+			elementoMediano2 = enesimoElemento(med);
+			if(elementoMediano1 < elementoMediano2){
+				return elementoMediano1;
+			}
+			else{
+				return elementoMediano2;
 			}
 		}
 	}
@@ -394,7 +423,7 @@ public class No {
 			}
 		}
 
-		System.out.println(preOrdem(atual, 0));
+		System.out.println(qtdNos(atual));
 		double media = preOrdem(atual, 0) / qtdNos(atual);
 
 		return media;
