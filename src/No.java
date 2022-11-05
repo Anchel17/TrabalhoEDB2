@@ -272,34 +272,43 @@ public class No {
 		return false;
 	}
 
-	public static int alturaDaArvore(No raiz) {
-		if (raiz == null) {
+	public static int qtdNos(No raiz){
+		if(raiz == null){
 			return 0;
-		} else {
-			return alturaDaArvore(raiz.noEsquerdo) + 1 + alturaDaArvore(raiz.noDireito);
+		}
+		else{
+			return qtdNos(raiz.noEsquerdo) + qtdNos(raiz.noDireito) + 1;
 		}
 	}
 
-	public static void enesimoElemento(No raiz, int enesimo) {
-		if (raiz == null)
+	public static void enesimoElemento(int enesimo) {
+		if(qtdNos(raiz) == 0 || enesimo < 1){
+			System.out.println("Árvore vazia ou digite um n > 0");
 			return;
-
+		}
+		
+		if(qtdNos(raiz) < enesimo){
+			System.out.println("O 'n' excede o número de nós da árvore");
+			return;
+		}
+		
 		No atual = raiz;
-
-		while (true) {
-			if (atual == null)
+		
+		while(true){
+			int qtdNosEsquerda = qtdNos(atual.noEsquerdo);
+			System.out.println("qtd: " + qtdNosEsquerda);
+			if(qtdNosEsquerda + 1 == enesimo){
+				System.out.println(atual);
 				break;
-			int alturaAtual = alturaDaArvore(atual.noEsquerdo);
-			System.out.println(alturaDaArvore(atual.noEsquerdo));
-
-			if (alturaAtual + 1 == enesimo) {
-				System.out.println(atual.valor);
-				break;
-			} else if (alturaAtual + 1 > enesimo) {
+			}
+			else if(qtdNosEsquerda + 1 > enesimo){
 				atual = atual.noEsquerdo;
-			} else if (alturaAtual + 1 < enesimo) {
+			}
+			else if(qtdNosEsquerda + 1 < enesimo){
 				atual = atual.noDireito;
-				enesimo -= alturaAtual + 1;
+				//tira a qtd de nós á esquerda dos já percorridos
+				enesimo -= qtdNosEsquerda + 1;
+				System.out.println("en: " + enesimo);
 			}
 		}
 	}
@@ -383,7 +392,7 @@ public class No {
 		}
 
 		System.out.println(preOrdem(atual, 0));
-		double media = preOrdem(atual, 0) / alturaDaArvore(atual);
+		double media = preOrdem(atual, 0) / qtdNos(atual);
 
 		return media;
 	}
