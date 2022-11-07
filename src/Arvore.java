@@ -3,6 +3,13 @@ public class Arvore {
 	public static No raiz = null;
 	public static int quantNos = 0;
 
+	/**
+	 * Percorre a árvore em busca de um elemento inserido como parâmetro.
+	 * 
+	 * @param chave Elemento a ser buscado na árvore.
+	 * @return Caso encontre o elemento, será retornado o acesso a este nó, senão,
+	 *         retorna null.
+	 */
 	public static No busca(int chave) {
 		if (raiz == null) {
 			return null;
@@ -38,6 +45,14 @@ public class Arvore {
 		}
 	}
 
+	/**
+	 * Percorre a árvore em busca de inserir o elemento em um local onde não quebre
+	 * a organização de ABB.
+	 * 
+	 * @param no Nó contendo o elemento a ser inserido na árvore.
+	 * @return Caso o elemento seja inserido com sucesso, retorna true e uma
+	 *         mensagem, senão, retorna false e uma mensagem.
+	 */
 	public static boolean inserir(No no) {
 		if (raiz == null) {
 			raiz = no;
@@ -188,6 +203,9 @@ public class Arvore {
 		}
 	}
 
+	/**
+	 * Retorna a raiz da árvore.
+	 */
 	public static No getRaiz() {
 		return raiz;
 	}
@@ -223,6 +241,15 @@ public class Arvore {
 		}
 	}
 
+	/**
+	 * Utiliza a fórmula (2^altura-1) <= n <= (2^n) - 1. Caso o n satisfaça a
+	 * condição, retorna true.
+	 * Utiliza a função calcAltura para atribuir aos nós o atributo de altura
+	 * respectivo.
+	 * 
+	 * @param raiz Árvore onde será analisada se é completa.
+	 * @return
+	 */
 	public static boolean eCompleta(No raiz) {
 		if (raiz == null) {
 			return true;
@@ -261,6 +288,11 @@ public class Arvore {
 		return false;
 	}
 
+	/**
+	 * Get para quantidade de nós na subárvore da raiz.
+	 * 
+	 * @param raiz Árvore onde será contado os nós em suas subárvores.
+	 */
 	public static int qtdNos(No raiz) {
 		if (raiz == null) {
 			return 0;
@@ -296,6 +328,10 @@ public class Arvore {
 		}
 	}
 
+	/**
+	 * 
+	 * @param elemento
+	 */
 	public static void posicao(int elemento) {
 		if (raiz == null)
 			return;
@@ -318,8 +354,11 @@ public class Arvore {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public static int mediana() {
-
 		int altura = qtdNos(raiz);
 		int med;
 		int elementoMediano1;
@@ -344,6 +383,11 @@ public class Arvore {
 		}
 	}
 
+	/**
+	 * Percurso preOrdem recursivo.
+	 * 
+	 * @param raiz Árvore onde irá ocorrer o percurso.
+	 */
 	public static void preOrdem(No raiz) {
 		System.out.print(raiz.valor + "  ");
 
@@ -448,12 +492,13 @@ public class Arvore {
 
 	/**
 	 * Imprime uma árvore na forma de parênteses.
+	 * Recursivamente montando a String de saída com a árvore.
 	 * 
 	 * @param raiz Árvore a ser impressa
-	 * @return Recursivamente montando a String de saída com a árvore.
+	 * @return String com a presentação de árvore.
 	 */
 	public static String imprimirParenteses(No raiz) {
-		if (raiz.altura != -1) {
+		if (raiz.altura > -1) {
 			String saida = " (";
 			saida += raiz.valor;
 
@@ -465,11 +510,12 @@ public class Arvore {
 			}
 			saida += ")";
 			return saida;
-		} else if (raiz.noEsquerdo == null && raiz.noDireito != null) {
-			return imprimirParenteses(raiz.noDireito);
-		} else if (raiz.noDireito == null && raiz.noEsquerdo != null) {
-			return imprimirParenteses(raiz.noEsquerdo);
 		}
+		// } else if (raiz.noEsquerdo == null && raiz.noDireito != null) {
+		// return imprimirParenteses(raiz.noDireito);
+		// } else if (raiz.noDireito == null && raiz.noEsquerdo != null) {
+		// return imprimirParenteses(raiz.noEsquerdo);
+		// }
 		return "";
 	}
 }
