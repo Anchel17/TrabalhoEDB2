@@ -1,5 +1,8 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -14,71 +17,83 @@ public class Main {
 		sc.close();
 	}
 
-	public static void preOrdem(No raiz) {
-		System.out.println(raiz.valor);
+	public static void comandos(String arquivo) throws IOException {
+		File comandos = new File(arquivo);
+		FileReader leitura = new FileReader(comandos);
+		BufferedReader bufferedReader = new BufferedReader(leitura);
+		String linha = "";
 
-		if (raiz.noEsquerdo != null) {
-			preOrdem(raiz.noEsquerdo);
-		}
+		while ((linha = bufferedReader.readLine()) != null) {
+			String[] entrada = new String[2];
+			entrada[0] = linha;
+			if (linha.contains(" ")) {
+				entrada = linha.split(" ");
+			}
+			switch (entrada[0]) {
+				case "CHEIA":
+					if (No.eCheia(No.getRaiz())) {
+						System.out.println("A árvore é cheia");
+					} else {
+						System.out.println("A árvore não é cheia");
+					}
+					break;
 
-		if (raiz.noDireito != null) {
-			preOrdem(raiz.noDireito);
+				case "COMPLETA":
+					if (No.eCompleta(No.getRaiz())) {
+						System.out.println("A árvore é completa");
+					} else {
+						System.out.println("A árvore não é completa");
+					}
+					break;
+				case "ENESIMO":
+					System.out.println(No.enesimoElemento(Integer.parseInt(entrada[1])));
+					break;
+				case "INSIRA":
+					No.inserir(new No(Integer.parseInt(entrada[1])));
+					break;
+				case "PREORDEM":
+					No.preOrdem(No.getRaiz());
+					System.out.println("");
+					break;
+				case "IMPRIMA":
+					if (entrada[1].equals("1")) {
+						No.imprimirBarras(No.getRaiz(), 20, 0);
+					} else if (entrada[1].equals("2")) {
+						System.out.println(No.imprimirParenteses(No.getRaiz()));
+					}
+					break;
+				case "REMOVA":
+					if (No.remover(Integer.parseInt(entrada[1]))) {
+						System.out.println(entrada[1] + " removido");
+					} else {
+						System.out.println(entrada[1] + " não está na árvore, não pode ser removido");
+					}
+					break;
+				case "POSICAO":
+					No.posicao(Integer.parseInt(entrada[1]));
+					break;
+				case "MEDIANA":
+					System.out.println(No.mediana());
+					break;
+				case "MEDIA":
+					System.out.println(No.media(No.getRaiz().valor));
+					break;
+				case "BUSCAR":
+					if (No.busca(Integer.parseInt(entrada[1])) == null) {
+						System.out.println("Chave não encontrada");
+					}
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
-	public static void inOrdem(No raiz) {
-		if (raiz.noEsquerdo != null) {
-			inOrdem(raiz.noEsquerdo);
-		}
-
-		System.out.print(raiz.valor + "  ");
-
-		if (raiz.noDireito != null) {
-			inOrdem(raiz.noDireito);
-		}
-	}
-
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
+		System.out.println("INSERINDO ELEMENTOS DO ARQUIVO NA ÁRVORE INICIAL");
 		arvoreEntrada(args[0]);
 
-		// No.inserir(new No(50));
-		// No.inserir(new No(70));
-		// No.inserir(new No(35));
-		// No.inserir(new No(40));
-		// No.inserir(new No(25));
-		// No.inserir(new No(30));
-		// No.inserir(new No(65));
-		// No.inserir(new No(90));
-		// No.inserir(new No(80));
-		// No.inserir(new No(20));
-		// No.inserir(new No(100));
-
-		/*
-		 * Testes árvore cheia.
-		 * No.inserir(new No(6));
-		 * No.inserir(new No(3));
-		 * No.inserir(new No(10));
-		 * No.inserir(new No(1));
-		 * No.inserir(new No(4));
-		 * No.inserir(new No(7));
-		 * No.inserir(new No(11));
-		 * System.out.println(
-		 * "Raiz: " + No.getRaiz() + " " + No.getRaiz().noEsquerdo.valor + " " +
-		 * No.getRaiz().noDireito.valor);
-		 */
-
-		// System.out.println(No.remover(35));
-
-		// preOrdem(No.getRaiz());
-		// inOrdem(No.getRaiz());
-		// System.out.println("\nElemento n: ");
-		System.out.println("É completa? " + No.eCompleta(No.getRaiz()));
-		System.out.println("\nÉ cheia? " + No.eCheia(No.getRaiz()));
-		No.inserir(new No(36));
-
-		// No.enesimoElemento(No.getRaiz(), 5);
-		System.out.println("\nÉ cheia? " + No.eCheia(No.getRaiz()));
-
-		No.imprimirBarras(No.getRaiz(), 20, 0);
+		System.out.println("\nRODANDO ARQUIVO CONTENDO OS COMANDOS...");
+		comandos(args[1]);
 	}
 }

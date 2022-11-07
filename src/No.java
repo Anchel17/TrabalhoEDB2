@@ -20,8 +20,9 @@ public class No {
 		No atual = raiz;
 
 		while (true) {
-			System.out.println(atual);
+			// System.out.println(atual);
 			if (chave == atual.valor) {
+				System.out.println("Chave encontrada");
 				return atual;
 			} else if (chave < atual.valor) {
 				if (atual.noEsquerdo != null) {
@@ -80,7 +81,6 @@ public class No {
 				}
 			}
 		}
-
 	}
 
 	public static boolean remover(int chave) {
@@ -271,94 +271,86 @@ public class No {
 		return false;
 	}
 
-	public static int qtdNos(No raiz){
-		if(raiz == null){
+	public static int qtdNos(No raiz) {
+		if (raiz == null) {
 			return 0;
-		}
-		else{
+		} else {
 			return qtdNos(raiz.noEsquerdo) + qtdNos(raiz.noDireito) + 1;
 		}
 	}
 
 	public static int enesimoElemento(int enesimo) {
-		if(qtdNos(raiz) == 0 || enesimo < 1){
+		if (qtdNos(raiz) == 0 || enesimo < 1) {
 			System.out.println("Árvore vazia ou digite um n > 0");
 			return -1;
 		}
-		
-		if(qtdNos(raiz) < enesimo){
+
+		if (qtdNos(raiz) < enesimo) {
 			System.out.println("O 'n' excede o número de nós da árvore");
 			return -1;
 		}
-		
+
 		No atual = raiz;
-		
-		while(true){
+
+		while (true) {
 			int qtdNosEsquerda = qtdNos(atual.noEsquerdo);
-			if(qtdNosEsquerda + 1 == enesimo){
+			if (qtdNosEsquerda + 1 == enesimo) {
 				return atual.valor;
-				//System.out.println(atual);
-				//break;
-			}
-			else if(qtdNosEsquerda + 1 > enesimo){
+				// System.out.println(atual);
+				// break;
+			} else if (qtdNosEsquerda + 1 > enesimo) {
 				atual = atual.noEsquerdo;
-			}
-			else if(qtdNosEsquerda + 1 < enesimo){
+			} else if (qtdNosEsquerda + 1 < enesimo) {
 				atual = atual.noDireito;
-				//tira a qtd de nós á esquerda dos já percorridos
+				// tira a qtd de nós á esquerda dos já percorridos
 				enesimo -= qtdNosEsquerda + 1;
 			}
 		}
 	}
 
-	
 	public static void posicao(int elemento) {
 		if (raiz == null)
 			return;
-		
+
 		No atual = raiz;
 		int pos = 0;
-		
-		while(true){
+
+		while (true) {
 			int qtdNosEsquerda = qtdNos(atual.noEsquerdo);
 			pos += qtdNosEsquerda + 1;
-			if(atual.valor == elemento){
+			if (atual.valor == elemento) {
 				System.out.println(pos);
 				break;
-			}
-			else if(atual.valor > elemento){
+			} else if (atual.valor > elemento) {
 				atual = atual.noEsquerdo;
 				pos -= qtdNosEsquerda + 1;
-			}
-			else{
+			} else {
 				atual = atual.noDireito;
 			}
 		}
 	}
-	
-	public static int mediana(){
-		
+
+	public static int mediana() {
+
 		int altura = qtdNos(raiz);
 		int med;
 		int elementoMediano1;
 		int elementoMediano2;
-		
-		//se a árvore tem um número ímpar de elementos
-		if(altura % 2 != 0){
-			med = (altura + 1)/2;
+
+		// se a árvore tem um número ímpar de elementos
+		if (altura % 2 != 0) {
+			med = (altura + 1) / 2;
 			elementoMediano1 = enesimoElemento(med);
 			return elementoMediano1;
-		}
-		else{
-			med = (altura)/2;
+		} else {
+			med = (altura) / 2;
 			elementoMediano1 = enesimoElemento(med);
-			
-			med = (int) Math.floor(altura/2) + 1;
+
+			med = (int) Math.floor(altura / 2) + 1;
 			elementoMediano2 = enesimoElemento(med);
-			if(elementoMediano1 < elementoMediano2){
+			if (elementoMediano1 < elementoMediano2) {
 				return elementoMediano1;
-			}
-			else{
+			} else {
 				return elementoMediano2;
 			}
 		}
@@ -393,20 +385,20 @@ public class No {
 		return soma;
 	}
 
-	public static double media(int x) {
+	public static double media(int valorRaiz) {
 		if (raiz == null)
 			return -1d;
 		No atual = raiz;
 		while (true) {
-			if (x == atual.valor) {
+			if (valorRaiz == atual.valor) {
 				break;
-			} else if (x < atual.valor) {
+			} else if (valorRaiz < atual.valor) {
 				if (atual.noEsquerdo != null) {
 					atual = atual.noEsquerdo;
 				} else {
 					if (atual.noDireito == null) {
 						break;
-					} else if (x < atual.noDireito.valor) {
+					} else if (valorRaiz < atual.noDireito.valor) {
 						break;
 					}
 				}
@@ -416,23 +408,23 @@ public class No {
 				} else {
 					if (atual.noEsquerdo == null) {
 						break;
-					} else if (x > atual.noEsquerdo.valor) {
+					} else if (valorRaiz > atual.noEsquerdo.valor) {
 						break;
 					}
 				}
 			}
 		}
 
-		System.out.println(qtdNos(atual));
+		// System.out.println(qtdNos(atual));
 		double media = preOrdem(atual, 0) / qtdNos(atual);
 
 		return media;
 	}
 
 	/**
-	 * Imprime uma matriz na forma de barras.
+	 * Imprime uma árvore na forma de barras.
 	 * 
-	 * @param raiz    Matriz a ser impressa
+	 * @param raiz    Árvore a ser impressa
 	 * @param tracos  Traços que diferenciará em que nível está o nó.
 	 * @param espacos Quantidade de espaços que serão imprimidos.
 	 */
@@ -465,7 +457,33 @@ public class No {
 			imprimirBarras(raiz.noEsquerdo, tracos - 4, blank + 4);
 			imprimirBarras(raiz.noDireito, tracos - 4, blank + 4);
 		}
+	}
 
+	/**
+	 * Imprime uma árvore na forma de parênteses.
+	 * 
+	 * @param raiz Árvore a ser impressa
+	 * @return Recursivamente montando a String de saída com a árvore.
+	 */
+	public static String imprimirParenteses(No raiz) {
+		if (raiz.altura != -1) {
+			String saida = " (";
+			saida += raiz.valor;
+
+			if (raiz.noEsquerdo != null) {
+				saida += imprimirParenteses(raiz.noEsquerdo);
+			}
+			if (raiz.noDireito != null) {
+				saida += imprimirParenteses(raiz.noDireito);
+			}
+			saida += ")";
+			return saida;
+		} else if (raiz.noEsquerdo == null && raiz.noDireito != null) {
+			return imprimirParenteses(raiz.noDireito);
+		} else if (raiz.noDireito == null && raiz.noEsquerdo != null) {
+			return imprimirParenteses(raiz.noEsquerdo);
+		}
+		return "";
 	}
 
 	@Override

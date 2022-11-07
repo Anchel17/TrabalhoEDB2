@@ -13,5 +13,5 @@ javac Main.java
   
 Na mesma pasta onde rodou o comando para compilar, execute:
 ```
-java Main "..\data\arvoreEntrada.txt"
+java Main "..\data\arvoreEntrada.txt" "..\data\comandos.txt"
 ```
