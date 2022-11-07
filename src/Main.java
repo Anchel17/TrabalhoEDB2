@@ -12,7 +12,7 @@ public class Main {
 		sc.useDelimiter(" ");
 		while (sc.hasNext()) {
 			int linha = Integer.parseInt(sc.next());
-			No.inserir(new No(linha));
+			Arvore.inserir(new No(linha));
 		}
 		sc.close();
 	}
@@ -31,7 +31,7 @@ public class Main {
 			}
 			switch (entrada[0]) {
 				case "CHEIA":
-					if (No.eCheia(No.getRaiz())) {
+					if (Arvore.eCheia(Arvore.getRaiz())) {
 						System.out.println("A árvore é cheia");
 					} else {
 						System.out.println("A árvore não é cheia");
@@ -39,47 +39,47 @@ public class Main {
 					break;
 
 				case "COMPLETA":
-					if (No.eCompleta(No.getRaiz())) {
+					if (Arvore.eCompleta(Arvore.getRaiz())) {
 						System.out.println("A árvore é completa");
 					} else {
 						System.out.println("A árvore não é completa");
 					}
 					break;
 				case "ENESIMO":
-					System.out.println(No.enesimoElemento(Integer.parseInt(entrada[1])));
+					System.out.println(Arvore.enesimoElemento(Integer.parseInt(entrada[1])));
 					break;
 				case "INSIRA":
-					No.inserir(new No(Integer.parseInt(entrada[1])));
+					Arvore.inserir(new No(Integer.parseInt(entrada[1])));
 					break;
 				case "PREORDEM":
-					No.preOrdem(No.getRaiz());
+					Arvore.preOrdem(Arvore.getRaiz());
 					System.out.println("");
 					break;
 				case "IMPRIMA":
 					if (entrada[1].equals("1")) {
-						No.imprimirBarras(No.getRaiz(), 20, 0);
+						Arvore.imprimirBarras(Arvore.getRaiz(), 20, 0);
 					} else if (entrada[1].equals("2")) {
-						System.out.println(No.imprimirParenteses(No.getRaiz()));
+						System.out.println(Arvore.imprimirParenteses(Arvore.getRaiz()));
 					}
 					break;
 				case "REMOVA":
-					if (No.remover(Integer.parseInt(entrada[1]))) {
+					if (Arvore.remover(Integer.parseInt(entrada[1]))) {
 						System.out.println(entrada[1] + " removido");
 					} else {
 						System.out.println(entrada[1] + " não está na árvore, não pode ser removido");
 					}
 					break;
 				case "POSICAO":
-					No.posicao(Integer.parseInt(entrada[1]));
+					Arvore.posicao(Integer.parseInt(entrada[1]));
 					break;
 				case "MEDIANA":
-					System.out.println(No.mediana());
+					System.out.println(Arvore.mediana());
 					break;
 				case "MEDIA":
-					System.out.println(No.media(No.getRaiz().valor));
+					System.out.println(Arvore.media(Arvore.getRaiz().valor));
 					break;
 				case "BUSCAR":
-					if (No.busca(Integer.parseInt(entrada[1])) == null) {
+					if (Arvore.busca(Integer.parseInt(entrada[1])) == null) {
 						System.out.println("Chave não encontrada");
 					}
 					break;
@@ -87,6 +87,7 @@ public class Main {
 					break;
 			}
 		}
+		bufferedReader.close();
 	}
 
 	public static void main(String[] args) throws IOException {
