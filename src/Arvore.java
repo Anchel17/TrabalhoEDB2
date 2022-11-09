@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.List;
+
 public class Arvore {
 
 	public static No raiz = null;
@@ -45,52 +48,11 @@ public class Arvore {
 		}
 	}
 
-	/**
-	 * Percorre a árvore em busca de inserir o elemento em um local onde não quebre
-	 * a organização de ABB.
-	 * 
-	 * @param no Nó contendo o elemento a ser inserido na árvore.
-	 * @return Caso o elemento seja inserido com sucesso, retorna true e uma
-	 *         mensagem, senão, retorna false e uma mensagem.
-	 */
-	public static boolean inserir(No no) {
-		if (raiz == null) {
-			raiz = no;
-			System.out.println(no.valor + " adicionado");
-			quantNos++;
-			return true;
-		}
-
-		No atual = raiz;
-		while (true) {
-			if (no.valor == atual.valor) {
-				System.out.println(no.valor + " já está na árvore, não pode ser inserido");
-				return false;
-			} else if (no.valor < atual.valor) {
-				if (atual.noEsquerdo == null) {
-					atual.noEsquerdo = no;
-					quantNos++;
-					System.out.println(no.valor + " adicionado");
-					return true;
-				} else {
-					atual = atual.noEsquerdo;
-				}
-			} else {
-				if (atual.noDireito == null) {
-					atual.noDireito = no;
-					quantNos++;
-					System.out.println(no.valor + " adicionado");
-					return true;
-				} else {
-					atual = atual.noDireito;
-				}
-			}
-		}
-	}
-
 	public static boolean remover(int chave) {
 		No atual = raiz;
 		No pai = null;
+		List<No> elementosFilhos = new LinkedList<>();
+		List<String> lado = new LinkedList<>();
 
 		while (true) {
 			if (raiz == null) {
@@ -107,6 +69,13 @@ public class Arvore {
 					}
 					atual = null;
 					quantNos--;
+					for (int i = 0; i < elementosFilhos.size(); i++) {
+						if (lado.get(i).equals("esq")) {
+							elementosFilhos.get(i).quantNosEsquerda--;
+						} else {
+							elementosFilhos.get(i).quantNosDireita--;
+						}
+					}
 					return true;
 				} else {
 					// SE O NÓ A SER DELETADO TEM SUBNo APENAS À ESQUERDA
@@ -118,6 +87,13 @@ public class Arvore {
 						}
 						atual = null;
 						quantNos--;
+						for (int i = 0; i < elementosFilhos.size(); i++) {
+							if (lado.get(i).equals("esq")) {
+								elementosFilhos.get(i).quantNosEsquerda--;
+							} else {
+								elementosFilhos.get(i).quantNosDireita--;
+							}
+						}
 						return true;
 					}
 					// SE O NÓ A SER DELETADO TEM SUBÁRVORE APENAS À DIREITA
@@ -129,6 +105,13 @@ public class Arvore {
 						}
 						atual = null;
 						quantNos--;
+						for (int i = 0; i < elementosFilhos.size(); i++) {
+							if (lado.get(i).equals("esq")) {
+								elementosFilhos.get(i).quantNosEsquerda--;
+							} else {
+								elementosFilhos.get(i).quantNosDireita--;
+							}
+						}
 						return true;
 					}
 					// SE O NÓ A SER REMOVIDO POSSUI DUAS SUBÁRVORES
@@ -136,56 +119,43 @@ public class Arvore {
 						No paiMaiorEsquerdo = atual;
 						No maiorEsquerdo = atual.noEsquerdo;
 
-						No paiMenorDireito = atual;
-						No menorDireito = atual.noDireito;
+						List<No> elementosFilhos1 = new LinkedList<>();
+						List<String> lado1 = new LinkedList<>();
 
-						while (menorDireito.noEsquerdo != null) {
-							paiMenorDireito = menorDireito;
-							menorDireito = menorDireito.noEsquerdo;
-						}
+						elementosFilhos1.add(atual);
+						lado1.add("esq");
 
 						while (maiorEsquerdo.noDireito != null) {
+							elementosFilhos1.add(maiorEsquerdo);
+							lado1.add("dir");
 							paiMaiorEsquerdo = maiorEsquerdo;
 							maiorEsquerdo = maiorEsquerdo.noDireito;
 						}
 
-						// Maior a esquerda está mais próximo do valor do nó removido
-						if ((atual.valor - maiorEsquerdo.valor) < (menorDireito.valor - atual.valor)) {
-							atual.valor = maiorEsquerdo.valor;
-							if (maiorEsquerdo.noEsquerdo != null) {
-								paiMaiorEsquerdo.noDireito = maiorEsquerdo.noEsquerdo;
+						atual.valor = maiorEsquerdo.valor;
+						if (maiorEsquerdo.noEsquerdo != null) {
+							paiMaiorEsquerdo.noDireito = maiorEsquerdo.noEsquerdo;
+						} else {
+							if (paiMaiorEsquerdo == atual) {
+								paiMaiorEsquerdo.noEsquerdo = null;
 							} else {
-								if (paiMaiorEsquerdo == atual) {
-									paiMaiorEsquerdo.noEsquerdo = null;
-								} else {
-									paiMaiorEsquerdo.noDireito = null;
-								}
+								paiMaiorEsquerdo.noDireito = null;
 							}
-							quantNos--;
-							return true;
 						}
-						// Menor à direita está mais próximo do valor do nó removido
-						else {
-							atual.valor = menorDireito.valor;
-							if (menorDireito.noDireito != null) {
-								paiMenorDireito.noEsquerdo = menorDireito.noDireito;
+						quantNos--;
+						for (int i = 0; i < elementosFilhos1.size(); i++) {
+							if (lado1.get(i).equals("esq")) {
+								elementosFilhos1.get(i).quantNosEsquerda--;
 							} else {
-								if (paiMenorDireito == atual) {
-									paiMenorDireito.noDireito = null;
-								} else {
-									paiMenorDireito.noEsquerdo = null;
-								}
+								elementosFilhos1.get(i).quantNosDireita--;
 							}
-
-							if (pai == null) {
-								raiz = atual;
-							}
-							quantNos--;
-							return true;
 						}
+						return true;
 					}
 				}
 			} else if (chave < atual.valor) {
+				elementosFilhos.add(atual);
+				lado.add("esq");
 				if (atual.noEsquerdo != null) {
 					pai = atual;
 					atual = atual.noEsquerdo;
@@ -193,6 +163,8 @@ public class Arvore {
 					return false;
 				}
 			} else {
+				elementosFilhos.add(atual);
+				lado.add("dir");
 				if (atual.noDireito != null) {
 					pai = atual;
 					atual = atual.noDireito;
@@ -289,25 +261,78 @@ public class Arvore {
 	}
 
 	/**
-	 * Get para quantidade de nós na subárvore da raiz.
+	 * Percorre a árvore em busca de inserir o elemento em um local onde não quebre
+	 * a organização de ABB.
 	 * 
-	 * @param raiz Árvore onde será contado os nós em suas subárvores.
+	 * @param no Nó contendo o elemento a ser inserido na árvore.
+	 * @return Caso o elemento seja inserido com sucesso, retorna true e uma
+	 *         mensagem, senão, retorna false e uma mensagem.
 	 */
-	public static int qtdNos(No raiz) {
+	public static boolean inserir(No no) {
 		if (raiz == null) {
-			return 0;
-		} else {
-			return qtdNos(raiz.noEsquerdo) + qtdNos(raiz.noDireito) + 1;
+			raiz = no;
+			System.out.println(no.valor + " adicionado");
+			quantNos++;
+			return true;
 		}
+
+		No atual = raiz;
+
+		List<No> elementosFilhos = new LinkedList<>();
+		List<String> lado = new LinkedList<>();
+		while (true) {
+			if (no.valor == atual.valor) {
+				System.out.println(no.valor + " já está na árvore, não pode ser inserido");
+
+				return false;
+			} else if (no.valor < atual.valor) {
+				lado.add("esq");
+				elementosFilhos.add(atual);
+				if (atual.noEsquerdo == null) {
+					atual.noEsquerdo = no;
+					quantNos++;
+					System.out.println(no.valor + " adicionado");
+					for (int i = 0; i < elementosFilhos.size(); i++) {
+						if (lado.get(i).equals("esq")) {
+							elementosFilhos.get(i).quantNosEsquerda++;
+						} else {
+							elementosFilhos.get(i).quantNosDireita++;
+						}
+					}
+					return true;
+				} else {
+					atual = atual.noEsquerdo;
+				}
+			} else {
+				lado.add("dir");
+				elementosFilhos.add(atual);
+				if (atual.noDireito == null) {
+					atual.noDireito = no;
+					quantNos++;
+					System.out.println(no.valor + " adicionado");
+					for (int i = 0; i < elementosFilhos.size(); i++) {
+						if (lado.get(i).equals("dir")) {
+							elementosFilhos.get(i).quantNosDireita++;
+						} else {
+							elementosFilhos.get(i).quantNosEsquerda++;
+						}
+					}
+					return true;
+				} else {
+					atual = atual.noDireito;
+				}
+			}
+		}
+
 	}
 
 	public static int enesimoElemento(int enesimo) {
-		if (qtdNos(raiz) == 0 || enesimo < 1) {
+		if (raiz.getQuantTotalFilhos() == 0 || enesimo < 1) {
 			System.out.println("Árvore vazia ou digite um n > 0");
 			return -1;
 		}
 
-		if (qtdNos(raiz) < enesimo) {
+		if (raiz.getQuantTotalFilhos() < enesimo) {
 			System.out.println("O 'n' excede o número de nós da árvore");
 			return -1;
 		}
@@ -315,14 +340,14 @@ public class Arvore {
 		No atual = raiz;
 
 		while (true) {
-			int qtdNosEsquerda = qtdNos(atual.noEsquerdo);
+			Integer qtdNosEsquerda = atual.quantNosEsquerda;
 			if (qtdNosEsquerda + 1 == enesimo) {
 				return atual.valor;
 			} else if (qtdNosEsquerda + 1 > enesimo) {
 				atual = atual.noEsquerdo;
 			} else if (qtdNosEsquerda + 1 < enesimo) {
 				atual = atual.noDireito;
-				// tira a qtd de nós á esquerda dos já percorridos
+				// Tira a qtd de nós á esquerda dos já percorridos
 				enesimo -= qtdNosEsquerda + 1;
 			}
 		}
@@ -340,7 +365,7 @@ public class Arvore {
 		int pos = 0;
 
 		while (true) {
-			int qtdNosEsquerda = qtdNos(atual.noEsquerdo);
+			Integer qtdNosEsquerda = atual.quantNosEsquerda;
 			pos += qtdNosEsquerda + 1;
 			if (atual.valor == elemento) {
 				System.out.println(pos);
@@ -355,30 +380,23 @@ public class Arvore {
 	}
 
 	/**
+	 * Obtém a mediana pelo formato inOrder da árvore.
+	 * Caso a árvore tenha um valor par de elementos, irá retornar o menor
+	 * elemento entre totalNos/2 e (totalNos/2) + 1
 	 * 
-	 * @return
+	 * @return Mediana da árvore pelo formato inOrder.
 	 */
 	public static int mediana() {
-		int altura = qtdNos(raiz);
-		int med;
-		int elementoMediano1;
-		int elementoMediano2;
-
-		// se a árvore tem um número ímpar de elementos
-		if (altura % 2 != 0) {
-			med = (altura + 1) / 2;
-			elementoMediano1 = enesimoElemento(med);
-			return elementoMediano1;
+		int nosTotais = raiz.getQuantTotalFilhos();
+		if (nosTotais % 2 != 0) {
+			return enesimoElemento((nosTotais / 2) + 1);
 		} else {
-			med = (altura) / 2;
-			elementoMediano1 = enesimoElemento(med);
-
-			med = (int) Math.floor(altura / 2) + 1;
-			elementoMediano2 = enesimoElemento(med);
-			if (elementoMediano1 < elementoMediano2) {
-				return elementoMediano1;
+			int ele1 = enesimoElemento(nosTotais / 2);
+			int ele2 = enesimoElemento((nosTotais / 2) + 1);
+			if (ele1 < ele2) {
+				return ele1;
 			} else {
-				return elementoMediano2;
+				return ele2;
 			}
 		}
 	}
@@ -397,6 +415,19 @@ public class Arvore {
 
 		if (raiz.noDireito != null) {
 			preOrdem(raiz.noDireito);
+		}
+	}
+
+	public static void preOrdemFilhos(No raiz) {
+		System.out.print(
+				raiz.valor + "  " + "Esq: " + raiz.quantNosEsquerda + " - Dir: " + raiz.quantNosDireita + "\n");
+
+		if (raiz.noEsquerdo != null) {
+			preOrdemFilhos(raiz.noEsquerdo);
+		}
+
+		if (raiz.noDireito != null) {
+			preOrdemFilhos(raiz.noDireito);
 		}
 	}
 
@@ -447,7 +478,7 @@ public class Arvore {
 			}
 		}
 
-		double media = preOrdem(atual, 0) / qtdNos(atual);
+		double media = preOrdem(atual, 0) / atual.getQuantTotalFilhos();
 
 		return media;
 	}
