@@ -14,6 +14,5 @@ public class No {
         this.valor = valor;
         this.noEsquerdo = null;
         this.noDireito = null;
-
     }
 }

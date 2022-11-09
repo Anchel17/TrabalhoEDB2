@@ -542,11 +542,6 @@ public class Arvore {
 			saida += ")";
 			return saida;
 		}
-		// } else if (raiz.noEsquerdo == null && raiz.noDireito != null) {
-		// return imprimirParenteses(raiz.noDireito);
-		// } else if (raiz.noDireito == null && raiz.noEsquerdo != null) {
-		// return imprimirParenteses(raiz.noEsquerdo);
-		// }
 		return "";
 	}
 }

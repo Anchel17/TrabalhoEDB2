@@ -6,18 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-	public static void teste(No raiz) {
-		if (raiz.noEsquerdo != null) {
-			teste(raiz.noEsquerdo);
-		}
-
-		System.out.println(raiz.valor);
-
-		if (raiz.noDireito != null) {
-			teste(raiz.noDireito);
-		}
-	}
-
+	
 	public static void arvoreEntrada(String arquivo) throws FileNotFoundException {
 		File arvoreEntrada = new File(arquivo);
 		Scanner sc = new Scanner(arvoreEntrada);
